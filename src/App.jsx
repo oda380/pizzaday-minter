@@ -282,7 +282,7 @@ function App() {
   <div className="flex flex-col items-center px-4 sm:px-6 lg:px-8 xl:px-12 py-8 sm:py-12 gap-10 sm:gap-16">
 
     {/* Hero Block - More Impactful */}
-    <section className="text-center w-full max-w-4xl mx-auto px-4 py-10 sm:py-16">
+    <section className="text-center w-full max-w-4xl mx-auto px-4 py-10 sm:py-14">
       <div className="transform transition-all duration-500 ease-out hover:scale-[1.02]">
         <img
           src="/pizza-day-banner.png" // Ensure this path is correct and image is in your public folder
@@ -291,10 +291,10 @@ function App() {
         />
       </div>
       <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-pizza-tomato-red dark:text-pizza-cheese-yellow mb-6 leading-tight tracking-tight">
-        <span className="drop-shadow-sm">🍕 Slice into History:</span><br className="sm:hidden" /><br></br>Bitcoin Pizza Day '25
+        <span className="drop-shadow-sm">🍕 A Slice of History:</span><br className="sm:hidden" /><br></br>Bitcoin Pizza Day '25
       </h1>
       <p className="text-base sm:text-lg md:text-xl text-page-text-light dark:text-page-text-dark/90 mb-8 max-w-2xl mx-auto leading-relaxed">
-        Join the <span className="font-semibold text-pizza-tomato-red dark:text-pizza-gold-accent">Yolo</span> in celebrating a legendary moment! Mint your exclusive Pizza Day NFT and own a piece of crypto folklore.
+        Join <span className="font-semibold text-pizza-tomato-red dark:text-pizza-gold-accent">Yolo</span> in celebrating a legendary moment! Mint your exclusive Pizza Day NFT and own a piece of crypto folklore.
       </p>
     </section>
 
@@ -349,7 +349,7 @@ function App() {
         {!isConnected && (
           <section className="mt-6 bg-pizza-dough-light/70 dark:bg-pizza-oven-dark/70 backdrop-blur-sm p-6 sm:p-8 rounded-3xl shadow-xl border-2 border-pizza-crust dark:border-pizza-cheese-melt transition-all duration-300 hover:shadow-[0_0_30px_5px_rgba(249,115,22,0.2)] dark:hover:shadow-[0_0_30px_5px_rgba(245,158,11,0.2)]">
             <h2 className="text-3xl sm:text-4xl font-bold text-center text-pizza-tomato-red dark:text-pizza-cheese-yellow mb-8 tracking-tight">
-              🍕 Discover the <span className="italic">Bitcoin Pizza</span> Collection! 🍕
+              🍕 Mint a <span className="bold">Pizza</span> for the chance to win $50! 🍕
             </h2>
             <div className="mb-8 text-center">
               <img
