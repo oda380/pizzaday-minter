@@ -349,7 +349,7 @@ function App() {
         {!isConnected && (
           <section className="mt-6 bg-pizza-dough-light/70 dark:bg-pizza-oven-dark/70 backdrop-blur-sm p-6 sm:p-8 rounded-3xl shadow-xl border-2 border-pizza-crust dark:border-pizza-cheese-melt transition-all duration-300 hover:shadow-[0_0_30px_5px_rgba(249,115,22,0.2)] dark:hover:shadow-[0_0_30px_5px_rgba(245,158,11,0.2)]">
             <h2 className="text-3xl sm:text-4xl font-bold text-center text-pizza-tomato-red dark:text-pizza-cheese-yellow mb-8 tracking-tight">
-              🍕 Mint a <span className="bold">Pizza</span> for the chance to win $50! 🍕
+              🍕 Mint a <span className="bold">Pizza</span> for the chance to win $50 🍕
             </h2>
             <div className="mb-8 text-center">
               <img
