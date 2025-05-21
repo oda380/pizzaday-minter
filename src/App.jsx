@@ -277,229 +277,291 @@ function App() {
   };
   
   return (
-    // JSX remains the same as your provided version for styling
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 font-['Inter',_sans-serif] antialiased">
-      <div className="flex justify-center px-4 sm:px-6 lg:px-12 py-6 md:py-8">
-        <div className="w-full max-w-[840px] bg-white dark:bg-slate-800 rounded-xl shadow-2xl p-4 md:p-5 border border-gray-200 dark:border-slate-700">
-          <header className="mb-8 p-5 bg-white dark:bg-slate-700/50 rounded-xl shadow-md flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-0">
-            <h1 className="text-2xl font-bold text-blue-600 dark:text-amber-400">
-              <span role="img" aria-label="pizza" className="mr-2 text-3xl">🍕</span>
-              Pizza Day NFT Minter
-            </h1>
-            <div className="flex flex-col items-center sm:items-end">
-              <ConnectButton 
-                accountStatus={{ smallScreen: 'avatar', largeScreen: 'full' }}
-                showBalance={{ smallScreen: false, largeScreen: true }}
-              />
-            </div>
-          </header>
+  // Overall Page Background and Layout Container
+  <div className="min-h-screen bg-page-bg-light-dough dark:bg-page-bg-dark-brick text-page-text-light dark:text-page-text-dark font-sans antialiased transition-colors duration-300 ease-in-out">
+  <div className="flex flex-col items-center px-4 sm:px-6 lg:px-8 xl:px-12 py-8 sm:py-12 gap-10 sm:gap-16">
 
-          <main className="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-4 md:p-6">
-            {feedback && (
-              <div role="alert" aria-live="polite" className={`my-4 p-3 rounded-md text-sm font-medium border flex items-start gap-2
-                ${feedback.toLowerCase().includes("error") || feedback.toLowerCase().includes("failed") || feedback.toLowerCase().includes("rejected")
-                  ? 'bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-300 border-red-300 dark:border-red-700'
-                  : feedback.toLowerCase().includes("success") || feedback.toLowerCase().includes("congratulations") || feedback.toLowerCase().includes("loaded")
-                  ? 'bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300 border-green-300 dark:border-green-700'
-                  : 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border-blue-300 dark:border-blue-700'}`}>
-                <span aria-hidden="true">{feedback.toLowerCase().includes("error") || feedback.toLowerCase().includes("failed") || feedback.toLowerCase().includes("rejected") ? '❗️' : feedback.toLowerCase().includes("success") || feedback.toLowerCase().includes("congratulations") || feedback.toLowerCase().includes("loaded") ? '✅' : '🔔'}</span>
-                <span>{feedback}</span>
+    {/* Hero Block - More Impactful */}
+    <section className="text-center w-full max-w-4xl mx-auto px-4 py-10 sm:py-16">
+      <div className="transform transition-all duration-500 ease-out hover:scale-[1.02]">
+        <img
+          src="/pizza-day-banner.png" // Ensure this path is correct and image is in your public folder
+          alt="Celebrate Bitcoin Pizza Day with Yolo - Commemorative NFT Drop"
+          className="max-w-sm sm:max-w-md md:max-w-lg mx-auto mb-8 rounded-lg shadow-2xl dark:shadow-[0_10px_30px_-10px_rgba(241,196,15,0.3)]"
+        />
+      </div>
+      <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-pizza-tomato-red dark:text-pizza-cheese-yellow mb-6 leading-tight tracking-tight">
+        <span className="drop-shadow-sm">🍕 Slice into History:</span><br className="sm:hidden" /><br></br>Bitcoin Pizza Day '25
+      </h1>
+      <p className="text-base sm:text-lg md:text-xl text-page-text-light dark:text-page-text-dark/90 mb-8 max-w-2xl mx-auto leading-relaxed">
+        Join the <span className="font-semibold text-pizza-tomato-red dark:text-pizza-gold-accent">Yolo</span> in celebrating a legendary moment! Mint your exclusive Pizza Day NFT and own a piece of crypto folklore.
+      </p>
+    </section>
+
+    {/* App Container - The Main Minter Card */}
+    <div className="w-full max-w-3xl xl:max-w-4xl 
+                       bg-gradient-to-br from-pizza-dough-light via-white to-pizza-parchment 
+                       dark:from-pizza-oven-dark dark:via-pizza-night-dark dark:to-pizza-oven-dark 
+                       rounded-3xl shadow-2xl ... p-6 sm:p-8 md:p-10"> 
+      <header className="mb-8 sm:mb-10 pb-6 sm:pb-8 border-b-2 border-pizza-crust/30 dark:border-pizza-cheese-melt/30 flex flex-col sm:flex-row justify-between items-center gap-5">
+        <h1 className="text-2xl sm:text-3xl font-bold text-pizza-tomato-red dark:text-pizza-cheese-yellow tracking-wide flex items-center gap-2.5">
+          <span role="img" aria-label="pizza" className="text-3xl sm:text-4xl transform group-hover:rotate-12 transition-transform">🍕</span>
+          <span>Pizza Day NFT Minter</span>
+        </h1>
+        <ConnectButton accountStatus={{ smallScreen: 'avatar', largeScreen: 'full' }} showBalance={{ smallScreen: false, largeScreen: true }} />
+      </header>
+
+      <main className="space-y-8 sm:space-y-10">
+        {/* Feedback / Alert Messages */}
+        {feedback && (
+          <div
+            role="alert"
+            aria-live="polite"
+            className={`my-4 p-4 rounded-xl shadow-md border-2 flex items-start gap-3 text-sm font-medium
+              ${
+                feedback.toLowerCase().includes("error") ||
+                feedback.toLowerCase().includes("failed") ||
+                feedback.toLowerCase().includes("rejected")
+                  ? 'bg-pizza-error-light-bg dark:bg-pizza-error-dark-bg text-pizza-tomato-red dark:text-red-300 border-pizza-tomato-red/70 dark:border-red-500/70'
+                  : feedback.toLowerCase().includes("success") ||
+                    feedback.toLowerCase().includes("congratulations") ||
+                    feedback.toLowerCase().includes("loaded")
+                  ? 'bg-pizza-success-light-bg dark:bg-pizza-success-dark-bg text-pizza-basil-green-darker dark:text-green-300 border-pizza-basil-green/70 dark:border-green-500/70'
+                  : 'bg-pizza-info-light-bg dark:bg-pizza-info-dark-bg text-pizza-sky-blue-darker dark:text-blue-300 border-pizza-sky-blue/70 dark:border-blue-500/70'
+              }`}
+          >
+            <span aria-hidden="true" className="text-xl">
+              {feedback.toLowerCase().includes("error") ||
+              feedback.toLowerCase().includes("failed") ||
+              feedback.toLowerCase().includes("rejected")
+                ? '❗️'
+                : feedback.toLowerCase().includes("success") ||
+                  feedback.toLowerCase().includes("congratulations") ||
+                  feedback.toLowerCase().includes("loaded")
+                ? '✅'
+                : '🔔'}
+            </span>
+            <span>{feedback}</span>
+          </div>
+        )}
+
+        {/* "Not Connected" Section */}
+        {!isConnected && (
+          <section className="mt-6 bg-pizza-dough-light/70 dark:bg-pizza-oven-dark/70 backdrop-blur-sm p-6 sm:p-8 rounded-3xl shadow-xl border-2 border-pizza-crust dark:border-pizza-cheese-melt transition-all duration-300 hover:shadow-[0_0_30px_5px_rgba(249,115,22,0.2)] dark:hover:shadow-[0_0_30px_5px_rgba(245,158,11,0.2)]">
+            <h2 className="text-3xl sm:text-4xl font-bold text-center text-pizza-tomato-red dark:text-pizza-cheese-yellow mb-8 tracking-tight">
+              🍕 Discover the <span className="italic">Bitcoin Pizza</span> Collection! 🍕
+            </h2>
+            <div className="mb-8 text-center">
+              <img
+                src="https://scarlet-worried-toad-640.mypinata.cloud/ipfs/bafybeigu2dznrcbusodcnhb5ixtz7qbmqhy5yal6b2djl4rwrq5k4pxhzy/placeholder.png"
+                alt="Pizza Day Collection Preview"
+                className="w-full max-w-lg mx-auto rounded-2xl shadow-xl border-2 border-pizza-crust/50 dark:border-pizza-cheese-melt/50 object-cover transition-transform hover:scale-105 duration-300 ease-in-out"
+                style={{ maxHeight: '450px' }}
+                onError={(e) => {
+                  (e.target).style.display = 'none';
+                  const fallbackText = (e.target).parentNode?.querySelector('.img-fallback-text');
+                  if (fallbackText) (fallbackText).style.display = 'block';
+                }}
+              />
+               <p className="img-fallback-text text-gray-500 dark:text-slate-400 text-xs mt-2" style={{ display: 'none' }}>
+                Collection preview image is currently unavailable.
+              </p>
+            </div>
+            <p className="text-pizza-olive-dark dark:text-pizza-dough-light/90 mb-8 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto whitespace-pre-line text-center">
+              {collectionDescription}
+            </p>
+            {prizeImageUrls.length > 0 && (
+              <div className="mb-10">
+                <h3 className="text-2xl font-semibold text-pizza-tomato-red dark:text-pizza-cheese-yellow mb-6 text-center">
+                  🏆 What's in the Box? 🏆
+                </h3>
+                <div className="flex flex-wrap justify-center items-stretch gap-4 sm:gap-6 py-4">
+                  {prizeImageUrls.map((src, index) => (
+                    <div
+                      key={index}
+                      className="group w-[130px] h-[130px] sm:w-[160px] sm:h-[160px] bg-pizza-parchment dark:bg-pizza-box-dark rounded-xl shadow-lg border border-pizza-crust/30 dark:border-pizza-cheese-melt/40 overflow-hidden transition-all duration-300 ease-in-out hover:scale-110 hover:shadow-2xl hover:border-pizza-tomato-red dark:hover:border-pizza-cheese-yellow flex flex-col items-center justify-center p-2 cursor-pointer"
+                    >
+                      <img
+                        src={src}
+                        alt={`Prize outcome ${index + 1} example`}
+                        className="w-full h-full object-contain rounded-md transition-transform duration-300 group-hover:scale-105"
+                        onError={(e) => { (e.target).parentElement.style.display = 'none'; }}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+            <div className="mt-8 text-center bg-pizza-tomato-red/10 dark:bg-pizza-cheese-yellow/10 p-6 rounded-2xl border-2 border-dashed border-pizza-tomato-red/50 dark:border-pizza-cheese-yellow/50 shadow-sm hover:shadow-md transition-shadow">
+              <p className="text-pizza-tomato-red dark:text-pizza-cheese-yellow text-lg sm:text-xl font-semibold leading-relaxed">
+                Ready to grab a slice?
+              </p>
+              <p className="text-pizza-olive-dark dark:text-pizza-dough-light/80 text-sm mt-1">
+                Connect your wallet to mint your free Pizza Day NFT!
+              </p>
+            </div>
+          </section>
+        )}
+
+        {/* "Connected" State - Minting Section */}
+        {isConnected && (
+          <section aria-labelledby="minting-section-heading" className="bg-pizza-dough-light/70 dark:bg-pizza-oven-dark/70 backdrop-blur-sm p-6 sm:p-8 rounded-3xl shadow-xl border-2 border-pizza-crust/70 dark:border-pizza-cheese-melt/70">
+            {isLoadingInitialData ? (
+              <div className="flex flex-col items-center space-y-4 py-10" role="status" aria-live="polite">
+                <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-pizza-tomato-red dark:border-pizza-cheese-yellow"></div>
+                <p id="minting-section-heading" className="text-lg text-pizza-tomato-red dark:text-pizza-cheese-yellow font-semibold">Loading Contract Info...</p>
+              </div>
+            ) : (
+              <>
+                <h2 id="minting-section-heading" className="sr-only">NFT Minting Section</h2>
+                {maxSupply > 0 && (
+                  <div className="mb-6 p-4 bg-pizza-parchment dark:bg-pizza-box-dark rounded-xl border border-pizza-crust/50 dark:border-pizza-cheese-melt/50 text-center shadow-md">
+                    <p className="text-xl font-bold text-pizza-olive-dark dark:text-pizza-dough-light">
+                      Supply: <span className="text-pizza-tomato-red dark:text-pizza-cheese-yellow">{currentTotalSupply}</span> / {maxSupply}
+                    </p>
+                  </div>
+                )}
+                {!userHasAlreadyMinted && maxSupply > 0 && currentTotalSupply < maxSupply && (
+                  <button
+                    onClick={handleMint}
+                    disabled={isMintingWrite || isConfirmingMint || isLoadingNFT}
+                    className={`w-full font-bold py-5 px-6 rounded-xl text-xl transition-all duration-300 ease-in-out shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-opacity-60 transform hover:scale-105
+                    ${
+                      isMintingWrite || isConfirmingMint || isLoadingNFT
+                        ? 'bg-pizza-slate-light dark:bg-pizza-slate-dark text-slate-500 dark:text-slate-400 cursor-not-allowed'
+                        : 'bg-pizza-basil-green hover:bg-pizza-basil-green-darker text-white focus:ring-pizza-basil-green/50'
+                    }`}
+                  >
+                    {isMintingWrite ? 'Sending Transaction...' : isConfirmingMint ? 'Confirming Mint...' : isLoadingNFT ? 'Preparing Your NFT...' : 'Mint Your Pizza NFT!'}
+                  </button>
+                )}
+                {userHasAlreadyMinted && !isLoadingNFT && !userNFT && (
+                  <button
+                    onClick={fetchUserNFTDetails}
+                    className="mt-6 w-full font-semibold py-4 px-6 rounded-xl text-lg transition-all duration-300 ease-in-out shadow-lg hover:shadow-xl bg-pizza-sky-blue hover:bg-pizza-sky-blue-darker text-white focus:outline-none focus:ring-4 focus:ring-pizza-sky-blue/50 transform hover:scale-105"
+                  >
+                    <span>🔍 View Your Minted NFT</span>
+                  </button>
+                )}
+                {maxSupply > 0 && currentTotalSupply >= maxSupply && !userNFT && !isLoadingNFT && (
+                  <p className="mt-6 text-lg font-semibold text-pizza-tomato-red dark:text-pizza-cheese-yellow p-4 bg-pizza-parchment dark:bg-pizza-box-dark rounded-xl border-2 border-pizza-tomato-red/30 dark:border-pizza-cheese-yellow/30 text-center shadow-md">
+                    All Pizza Day NFTs have been minted out!
+                    {userHasAlreadyMinted && " Check yours below if loaded."}
+                  </p>
+                )}
+              </>
+            )}
+
+            {/* Loader for when userNFT is being fetched */}
+            {isLoadingNFT && (
+              <div className="mt-8 flex flex-col items-center space-y-4 py-10" role="status" aria-live="polite">
+                <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-pizza-sky-blue dark:border-pizza-cheese-yellow"></div>
+                <p className="text-lg text-pizza-sky-blue dark:text-pizza-cheese-yellow font-semibold">Loading Your NFT...</p>
               </div>
             )}
 
-            {!isConnected && (
-              <section aria-labelledby="collection-info-heading" className="mt-2 p-5 bg-gray-50 dark:bg-slate-700/30 rounded-xl border border-gray-200 dark:border-slate-700 text-center">
-                <h2 id="collection-info-heading" className="text-xl font-bold text-blue-600 dark:text-amber-400 mb-3">
-                  Discover the Pizza Day Collection!
+            {/* User NFT Details - The "Star" Card */}
+            {userNFT && (
+              <section aria-labelledby="user-nft-details-heading" className="mt-10 pt-8 border-t-2 border-pizza-crust/30 dark:border-pizza-cheese-melt/30">
+                <h2 id="user-nft-details-heading" className="text-3xl font-bold mb-8 text-pizza-tomato-red dark:text-pizza-cheese-yellow text-center">
+                  Your Delicious Pizza NFT!
                 </h2>
-                 <div className="my-4 sm:my-5">
-                  <img
-                    src="https://scarlet-worried-toad-640.mypinata.cloud/ipfs/bafybeigu2dznrcbusodcnhb5ixtz7qbmqhy5yal6b2djl4rwrq5k4pxhzy/placeholder.png"
-                    alt="Pizza Day Collection Preview"
-                    className="w-full max-w-sm mx-auto rounded-lg shadow-md border border-gray-200 dark:border-slate-600 object-contain"
-                    style={{ maxHeight: '350px' }}
-                    onError={(e) => {
-                      (e.target).style.display = 'none';
-                      const fallbackText = (e.target).parentNode?.querySelector('.img-fallback-text');
-                      if (fallbackText) (fallbackText).style.display = 'block';
-                    }}
-                  />
-                  <p className="img-fallback-text text-gray-500 dark:text-slate-400 text-xs mt-2" style={{ display: 'none' }}>
-                    Collection preview image is currently unavailable.
+
+                {userNFT.isWinner && (
+                  <p className="my-6 p-4 bg-gradient-to-r from-yellow-300 via-amber-400 to-yellow-300 dark:from-pizza-cheese-yellow/80 dark:via-amber-500/90 dark:to-pizza-cheese-yellow/80 border-2 border-amber-500 dark:border-amber-600/80 text-yellow-900 dark:text-gray-900 font-bold rounded-2xl text-lg shadow-xl text-center animate-pulse">
+                    🎉 Congratulations! You're a WINNER! 🏆 <span className="block text-sm font-normal mt-1">Special rewards await!</span>
                   </p>
-                </div>
-                <p className="text-gray-700 dark:text-slate-300 mb-4 text-xs sm:text-sm leading-relaxed max-w-lg mx-auto whitespace-pre-line">
-                  {collectionDescription}
-                </p>
-                {prizeImageUrls.length > 0 && (
-                  <>
-                    <h3 className="text-lg font-semibold text-gray-700 dark:text-amber-300 mb-3 text-center">
-                      🏆 What's in the box? 🏆
-                    </h3>
-                    <div className="flex flex-wrap justify-center items-center gap-5 py-4">
-                      {prizeImageUrls.map((src, index) => (
-                        <div key={index} className="w-[75%] max-w-[240px] aspect-square bg-white dark:bg-slate-700 rounded-md shadow border border-gray-200 dark:border-slate-600 overflow-hidden transition-transform hover:scale-105 flex items-center justify-center">
-                          <img
-                            src={src}
-                            alt={`Prize outcome ${index + 1} example`}
-                            className="w-full h-full object-contain"
-                            onError={(e) => { (e.target).parentElement.style.display = 'none'; }}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  </>
-                )}
-                <p className="mt-6 text-gray-600 dark:text-slate-400 font-semibold text-sm">
-                  Connect your wallet to mint your free Pizza Day NFT!
-                </p>
-              </section>
-            )}
-
-            {isConnected && (
-              <section aria-labelledby="minting-section-heading">
-                {isLoadingInitialData ? (
-                    <div className="mt-6 flex flex-col items-center space-y-2 py-6" role="status" aria-live="polite">
-                        <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-blue-500 dark:border-amber-500"></div>
-                        <p id="minting-section-heading" className="text-sm text-blue-600 dark:text-amber-400 font-medium">Loading Contract Info...</p>
-                    </div>
-                ) : (
-                    <>
-                        <h2 id="minting-section-heading" className="sr-only">NFT Minting Section</h2> {/* For screen readers */}
-                        {maxSupply > 0 && (
-                        <div className="mb-4 p-2.5 bg-gray-50 dark:bg-slate-700/50 rounded-md border border-gray-200 dark:border-slate-600 text-center">
-                            <p className="text-base font-semibold text-gray-700 dark:text-amber-300">
-                            Supply: {currentTotalSupply} / {maxSupply}
-                            </p>
-                        </div>
-                        )}
-                        {!userHasAlreadyMinted && maxSupply > 0 && currentTotalSupply < maxSupply && (
-                        <button
-                            onClick={handleMint}
-                            disabled={isMintingWrite || isConfirmingMint || isLoadingNFT} 
-                            className={`w-full font-semibold py-2.5 px-5 rounded-md text-base transition duration-150 shadow-lg hover:scale-[1.02]
-                            ${isMintingWrite || isConfirmingMint || isLoadingNFT
-                                ? 'bg-gray-300 dark:bg-slate-600 text-gray-500 dark:text-slate-400 cursor-not-allowed opacity-60'
-                                : 'bg-green-500 hover:bg-green-600 text-white focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-75 dark:bg-emerald-500 dark:hover:bg-emerald-600'}`}
-                        >
-                            {isMintingWrite ? 'Sending...' : isConfirmingMint ? 'Confirming Mint...' : isLoadingNFT ? 'Loading...' : 'Mint Your Pizza Day NFT!'}
-                        </button>
-                        )}
-                        {userHasAlreadyMinted && !isLoadingNFT && !userNFT && ( 
-                            <button 
-                                onClick={fetchUserNFTDetails} 
-                                className="mt-4 w-full font-semibold py-2.5 px-5 rounded-md text-base transition duration-150 shadow-lg hover:scale-[1.02] bg-blue-500 hover:bg-blue-600 text-white dark:bg-sky-500 dark:hover:bg-sky-600"
-                            >
-                                View Your Minted NFT
-                            </button>
-                        )}
-                        {maxSupply > 0 && currentTotalSupply >= maxSupply && !userNFT && !isLoadingNFT && (
-                            <p className="mt-4 text-base font-semibold text-gray-700 dark:text-amber-400 p-3 bg-gray-100 dark:bg-slate-700/50 rounded-md border border-gray-200 dark:border-slate-600 text-center">
-                                All Pizza Day NFTs have been minted out!
-                                {userHasAlreadyMinted && " Check yours below if loaded."}
-                            </p>
-                        )}
-                    </>
                 )}
 
-                {isLoadingNFT && (
-                  <div className="mt-6 flex flex-col items-center space-y-2 py-6" role="status" aria-live="polite">
-                    <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-blue-500 dark:border-amber-500"></div>
-                    <p className="text-sm text-blue-600 dark:text-amber-400 font-medium">Loading Your NFT...</p>
+                <div className="bg-gradient-to-br from-pizza-parchment via-white to-pizza-parchment dark:from-pizza-box-dark dark:via-pizza-oven-dark dark:to-pizza-box-dark p-6 sm:p-8 rounded-3xl shadow-2xl dark:shadow-[0_20px_50px_-20px_rgba(245,158,11,0.25)] md:flex md:flex-row md:items-start md:space-x-8">
+                  <div className="w-full md:w-2/5 mx-auto md:mx-0 mb-6 md:mb-0">
+                    {userNFT.carouselImages && userNFT.carouselImages.length > 0 ? (
+                      <Carousel
+                        showArrows={userNFT.carouselImages.length > 1}
+                        showThumbs={false}
+                        autoPlay={userNFT.carouselImages.length > 1}
+                        infiniteLoop={userNFT.carouselImages.length > 1}
+                        className="rounded-2xl overflow-hidden border-4 border-pizza-crust dark:border-pizza-cheese-melt shadow-xl bg-white dark:bg-pizza-oven-dark"
+                        aria-label="NFT Images Carousel"
+                      >
+                        {userNFT.carouselImages.map((src, index) => (
+                          <div key={index} className="aspect-square flex items-center justify-center bg-white dark:bg-pizza-oven-dark/50">
+                            <img
+                              src={src || 'https://placehold.co/300x300/cccccc/999999?text=Pizza'}
+                              alt={`${userNFT.name || 'NFT Image'} - view ${index + 1}`}
+                              className="object-contain h-full w-full"
+                              onError={(e) => { (e.target).onerror = null; (e.target).src = "https://placehold.co/300x300/ef4444/FFFFFF?text=Error"; }}
+                            />
+                          </div>
+                        ))}
+                      </Carousel>
+                    ) : (
+                      <div className="aspect-square flex items-center justify-center bg-white dark:bg-pizza-oven-dark/50 rounded-2xl border-4 border-pizza-crust dark:border-pizza-cheese-melt shadow-xl overflow-hidden">
+                        <img
+                          src={userNFT.image || 'https://placehold.co/300x300/cccccc/999999?text=N/A'}
+                          alt={userNFT.name || 'NFT Image'}
+                          className="object-contain h-full w-full"
+                        />
+                      </div>
+                    )}
                   </div>
-                )}
-
-                {userNFT && (
-                  <section aria-labelledby="user-nft-details-heading" className="mt-4 pt-4 border-t border-gray-200 dark:border-slate-700">
-                    <h2 id="user-nft-details-heading" className="text-xl font-bold mb-3 text-gray-700 dark:text-amber-400 text-center">Your Pizza Day NFT</h2>
-                    {userNFT.isWinner && (
-                      <p className="my-3 p-2.5 bg-yellow-100 dark:bg-yellow-500/30 border border-yellow-300 dark:border-yellow-600 text-yellow-800 dark:text-yellow-200 font-semibold rounded-md text-sm shadow text-center">
-                        🎉 Congratulations! You're a WINNER! 🏆
+                  <div className="w-full md:w-3/5 text-center md:text-left pt-2">
+                    <h3 className="text-2xl lg:text-3xl font-bold text-pizza-tomato-red dark:text-pizza-cheese-yellow break-words mb-2.5">{userNFT.name}</h3>
+                    <p className="text-sm text-pizza-olive-dark/80 dark:text-pizza-dough-light/70 mb-4">
+                      Token ID: <span className="font-mono font-semibold text-pizza-sky-blue dark:text-purple-400 text-base">{userNFT.tokenId}</span>
+                    </p>
+                    {userNFT.description && (
+                      <p className="text-sm sm:text-base mb-5 text-pizza-olive-dark dark:text-pizza-dough-light/90 whitespace-pre-line leading-relaxed">
+                        {userNFT.description}
                       </p>
                     )}
-                    <div className="md:flex md:flex-row md:items-start md:space-x-4 mt-3 bg-white dark:bg-slate-700/30 p-4 rounded-lg border border-gray-200 dark:border-slate-600">
-                        <div className="w-full md:w-1/3 mx-auto md:mx-0 mb-4 md:mb-0">
-                            {userNFT.carouselImages && userNFT.carouselImages.length > 0 ? (
-                                <Carousel
-                                    showArrows={userNFT.carouselImages.length > 1}
-                                    showThumbs={false}
-                                    autoPlay={userNFT.carouselImages.length > 1}
-                                    infiniteLoop={userNFT.carouselImages.length > 1}
-                                    className="rounded-md overflow-hidden border-2 border-gray-300 dark:border-slate-500 shadow bg-gray-50 dark:bg-slate-600"
-                                    aria-label="NFT Images Carousel"
-                                >
-                                    {userNFT.carouselImages.map((src, index) => (
-                                    <div key={index} className="aspect-square flex items-center justify-center bg-white dark:bg-slate-500">
-                                        <img
-                                            src={src || 'https://placehold.co/200x200/cccccc/999999?text=Pizza'}
-                                            alt={`${userNFT.name || 'NFT Image'} - view ${index + 1}`}
-                                            className="object-contain h-full w-full"
-                                            onError={(e) => {
-                                                (e.target).onerror = null; 
-                                                (e.target).src = "https://placehold.co/200x200/ef4444/FFFFFF?text=Error";
-                                            }}
-                                        />
-                                    </div>
-                                    ))}
-                                </Carousel>
-                            ) : (
-                                <div className="aspect-square flex items-center justify-center bg-gray-100 dark:bg-slate-600 rounded-md border-2 border-gray-300 dark:border-slate-500 shadow">
-                                    <img
-                                    src={userNFT.image || 'https://placehold.co/200x200/cccccc/999999?text=N/A'}
-                                    alt={userNFT.name || 'NFT Image'}
-                                    className="object-contain h-full w-full rounded-sm"
-                                    />
-                                </div>
-                            )}
-                        </div>
-                        <div className="w-full md:w-2/3 p-1 text-center md:text-left">
-                            <h3 className="text-lg lg:text-xl font-bold text-gray-800 dark:text-slate-100 break-words mb-1">{userNFT.name}</h3>
-                            <p className="text-xs text-gray-500 dark:text-slate-400 mb-2">
-                                Token ID: <span className="font-semibold text-blue-600 dark:text-purple-400">{userNFT.tokenId}</span>
-                            </p>
-                            {userNFT.description && (
-                            <p className="text-xs sm:text-sm mb-3 text-gray-600 dark:text-slate-300 whitespace-pre-line">
-                                {userNFT.description}
-                            </p>
-                            )}
-                            {userNFT.attributes && userNFT.attributes.length > 0 && (
-                            <div className="mt-3">
-                                <h4 className="text-sm lg:text-base font-semibold mb-1.5 text-gray-700 dark:text-slate-200">Attributes</h4>
-                                <ul className="flex flex-col items-center md:items-start space-y-1.5" aria-label="NFT Attributes">
-                                {userNFT.attributes.map((attr, index) => (
-                                    <li key={index} className="bg-gray-100 dark:bg-slate-600 border border-gray-200 dark:border-slate-500 text-gray-700 dark:text-slate-200 px-2.5 py-1.5 rounded shadow-sm w-full max-w-[220px] sm:max-w-xs text-xs">
-                                    <span className="font-semibold text-gray-600 dark:text-slate-300">{attr.trait_type}:</span> {attr.value}
-                                    </li>
-                                ))}
-                                </ul>
-                            </div>
-                            )}
-                        </div>
-                    </div>
-                  </section>
-                )}
+                    {userNFT.attributes && userNFT.attributes.length > 0 && (
+                      <div className="mt-6">
+                        <h4 className="text-lg font-semibold mb-3 text-pizza-olive-dark dark:text-pizza-dough-light">Attributes:</h4>
+                        <ul className="flex flex-wrap justify-center md:justify-start gap-3" aria-label="NFT Attributes">
+                          {userNFT.attributes.map((attr, index) => (
+                            <li key={index} className="bg-pizza-parchment dark:bg-pizza-box-dark/80 border border-pizza-crust/50 dark:border-pizza-cheese-melt/60 text-pizza-olive-dark dark:text-pizza-dough-light/90 px-4 py-2 rounded-lg shadow-sm text-sm hover:shadow-md transition-shadow">
+                              <span className="font-semibold">{attr.trait_type}:</span> {attr.value}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                </div>
               </section>
             )}
-          </main>
+          </section>
+        )}
+      </main>
 
-          <footer className="mt-12 pt-6 border-t border-gray-200 dark:border-slate-700 text-center text-xs text-gray-500 dark:text-slate-400 space-y-1">
-            <p>Pizza Day NFT Minter · Ensure you're on Base Mainnet</p>
-            <p>
-              Contract:{" "}
-              <a
-                href={`https://basescan.org/address/${CONTRACT_ADDRESS}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-500 hover:text-blue-600 hover:underline dark:text-purple-400 dark:hover:text-purple-300 break-all"
-              >
-                {CONTRACT_ADDRESS}
-              </a>
-            </p>
-          </footer>
-        </div>
-      </div>
-    </div>
-  );
+      {/* Footer within the App Container card */}
+      <footer className="mt-10 sm:mt-16 pt-6 sm:pt-8 border-t-2 border-pizza-crust/20 dark:border-pizza-cheese-melt/20 text-center space-y-3 sm:space-y-4">
+        <p className="text-sm text-pizza-olive-dark/90 dark:text-pizza-parchment/80">
+          <span className="font-semibold">🍕 Pizza Day NFT Minter</span> &copy; {new Date().getFullYear()}
+        </p>
+        <p className="text-xs text-pizza-olive-dark/70 dark:text-pizza-parchment/60 px-4">
+          Always ensure you are on the <span className="font-medium">Base Mainnet</span> and interacting with the correct contract.
+        </p>
+        {CONTRACT_ADDRESS && (
+          <div className="text-xs text-pizza-olive-dark/70 dark:text-pizza-parchment/60">
+            <span className="font-medium">Contract:</span>{' '}
+            <a
+              href={`https://basescan.org/address/${CONTRACT_ADDRESS}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-mono text-pizza-tomato-red hover:text-pizza-sauce-deep-red dark:text-pizza-cheese-yellow dark:hover:text-pizza-gold-accent underline break-all transition-colors duration-200 hover:opacity-80"
+              title={`View contract ${CONTRACT_ADDRESS} on Basescan`}
+            >
+              {CONTRACT_ADDRESS}
+            </a>
+          </div>
+        )}
+      </footer>
+    </div> {/* End of App Container */}
+  </div> {/* End of main flex layout container */}
+</div> // End of Page Background
+);
 }
 
 export default App;
