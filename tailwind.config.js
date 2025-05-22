@@ -12,71 +12,62 @@ export default {
         sans: ['Inter', 'ui-sans-serif', 'system-ui'],
       },
       colors: {
-        // --- Neutral Page Background & Text Colors (to make page less brown) ---
-        'page-bg-light': colors.slate[100],      // Example: #f1f5f9 (Light Mode Page BG)
-        'page-bg-dark': colors.slate[900],       // Example: #0f172a (Dark Mode Page BG)
-        'page-text-light': colors.slate[800],    // Example: #1e293b (Default text on light page BG)
-        'page-text-dark': colors.slate[200],     // Example: #e2e8f0 (Default text on dark page BG)
+        // --- UPDATED Page Background & Text Colors (Option 2: Warmer Theme) ---
+        'page-bg-light': '#FAF8F5',      // Light Mode: Very light, warm off-white (like subtle dough or parchment)
+        'page-bg-dark': '#211F1E',       // Dark Mode: Very dark, slightly warm, desaturated charcoal/brown (oven interior/cozy pizzeria)
+        
+        'page-text-light': '#4A3B31',    // Dark warm brown text for light BG (like your pizza-box-dark)
+        'page-text-dark': '#EAE0D5',     // Light warm parchment/off-white text for dark BG
 
-        // --- Core Thematic Palette for Pizza Elements ---
+        // Hero paragraph text (can use page-text or be specific for nuance)
+        'hero-paragraph-light': '#5D4037', // Slightly less intense dark brown for hero text on light page BG
+        'hero-paragraph-dark': '#D7CCC8',  // Soft warm off-white for hero text on dark page BG
+
+        // --- Your existing thematic colors for cards, UI elements, accents ---
         pizza: {
-          light: '#FFF8E1',     // Very light creamy for highlights or specific pizza elements
-          DEFAULT: '#FFC107',    // Main "pizza cheese" yellow/orange, also used for pizza-gold-accent
-          dark: '#2E2317',      // Dark, rich brown for specific pizza elements
+          light: '#FFF8E1',
+          DEFAULT: '#FFC107',
+          dark: '#2E2317',
         },
-
-        // --- General UI Colors from your setup ---
-        primary: colors.emerald,
-        info: colors.sky,
-        warning: colors.amber,
-        brand: {                 // Your main brand orange
+        primary: colors.emerald, // Keep as is, or consider if emerald fits the warm pizza theme
+        info: colors.sky,        // Keep as is for info states, or consider a warmer alternative if desired
+        warning: colors.amber,   // Amber fits well with a warm theme
+        brand: {
           DEFAULT: '#f97316',
           dark: '#ea580c',
         },
-
-        // --- Specific Thematic Colors for App Container, Cards, Text, UI states ---
-        'pizza-dough-light': '#FFF9F0',      // Card background - light mode (creamy off-white)
-        'pizza-oven-dark': '#2A1C12',        // Card background - dark mode (warm dark brown)
-        'pizza-crust': '#A07855',            // Borders, accents
-        'pizza-cheese-melt': '#D4A017',      // Dark mode borders, accents (rich gold/brown)
-        'pizza-tomato-red': '#E74C3C',       // Headings, errors (vibrant red)
-        'pizza-cheese-yellow': '#F1C40F',    // Dark mode headings, highlights (vibrant yellow)
-        
-        // Text colors for use on thematic backgrounds (e.g., inside cards)
-        'pizza-olive-dark': '#3D402D',       // Body text on light thematic backgrounds
-        'pizza-parchment': '#FDF5E6',        // Body text on dark thematic backgrounds (light, warm off-white)
-        
-        'pizza-box-dark': '#4A3B31',         // For inner elements in dark mode (e.g., attribute pills bg)
-        'pizza-hero-text-light': '#4A2C2A',  // Dark brown for hero text on light page BG (if page bg is very light)
-        'pizza-hero-text-dark': '#FFF0D9',   // Warm off-white for hero text on dark page BG
-
-        // Accent & State Colors
+        'pizza-dough-light': '#FFF9F0',      // Card background - light mode
+        'pizza-oven-dark': '#2A1C12',        // Card background - dark mode
+        'pizza-crust': '#A07855',
+        'pizza-cheese-melt': '#D4A017',
+        'pizza-tomato-red': '#E74C3C',
+        'pizza-cheese-yellow': '#F1C40F',
+        'pizza-olive-dark': '#3D402D',
+        'pizza-parchment': '#FDF5E6',        // Can also be used for page-text-dark if EAE0D5 is too similar/different
+        'pizza-box-dark': '#4A3B31',
         'pizza-basil-green': '#2ECC71',
         'pizza-basil-green-darker': '#27AE60',
-        'pizza-sky-blue': '#3498DB',         // For info messages, specific buttons
+        'pizza-sky-blue': '#3498DB',         // Keep for specific UI like "View NFT" button if desired for contrast
         'pizza-sky-blue-darker': '#2980B9',
-        'pizza-gold-accent': '#FFC107',      // Same as pizza.DEFAULT, for semantic clarity if needed
+        'pizza-gold-accent': '#FFC107',
 
-        // UI State Backgrounds (Loading, Disabled, Messages)
-        'pizza-slate-light': colors.slate[200], // For loading/disabled states in light mode (e.g., #e2e8f0)
-        'pizza-slate-dark': colors.slate[700],  // For loading/disabled states in dark mode (e.g., #334155)
+        'pizza-slate-light': colors.stone[200], // Switched to stone for warmer disabled/loading bg (#e7e5e4)
+        'pizza-slate-dark': colors.stone[700],  // Switched to stone for warmer disabled/loading bg (#44403c)
         
-        'pizza-error-light-bg': '#FEE2E2',   // Tailwind's red-100
-        'pizza-error-dark-bg': '#5E2D2B',    // Custom dark red
-        'pizza-success-light-bg': '#D1FAE5', // Tailwind's green-100
-        'pizza-success-dark-bg': '#2A5237',  // Custom dark green
-        'pizza-info-light-bg': '#DBEAFE',    // Tailwind's blue-100
-        'pizza-info-dark-bg': '#2C3E50',     // Custom dark blue
+        'pizza-error-light-bg': '#FEE2E2',
+        'pizza-error-dark-bg': '#5E2D2B',
+        'pizza-success-light-bg': '#D1FAE5',
+        'pizza-success-dark-bg': '#2A5237',
+        'pizza-info-light-bg': '#DBEAFE',    // If keeping sky-blue, this is fine
+        'pizza-info-dark-bg': '#2C3E50',     // If keeping sky-blue, this is fine
+
+        'pizza-hero-text-light': '#4A2C2A', // Already defined, good for warm light bg
+        'pizza-hero-text-dark': '#FFF0D9',  // Already defined, good for warm dark bg
       },
       boxShadow: {
         card: '0 4px 12px rgba(0, 0, 0, 0.08)',
-        // You can add more thematic shadows here if needed
-        // e.g., 'pizza-glow-light': '0 0 20px 0px theme(colors.pizza.DEFAULT)',
-        //       'pizza-glow-dark': '0 0 20px 0px theme(colors.pizza-cheese-yellow)',
       },
     },
   },
-  plugins: [
-    // require('@tailwindcss/forms'), // Example: if you wanted to add official plugins
-  ],
+  plugins: [],
 };
