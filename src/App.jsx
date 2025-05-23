@@ -3,8 +3,10 @@ import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 // Import RainbowKit and Wagmi hooks
 import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { waitForTransactionReceipt } from 'wagmi/actions';
 import { useAccount, useReadContract, useWriteContract, useWaitForTransactionReceipt, useConfig } from 'wagmi';
 import { parseAbi } from 'viem'; 
+import { rewardClaimAbi } from './abis/rewardClaimAbi';
 import { readContract as wagmiReadContractAction } from '@wagmi/core'; 
 
 // --- Configuration ---
@@ -26,6 +28,7 @@ const PIZZADAY_NFT_ABI_STRINGS = [
 ];
 
 const PIZZADAY_NFT_ABI = parseAbi(PIZZADAY_NFT_ABI_STRINGS); 
+const REWARD_CLAIM_ADDRESS = "0x47E2Aa48a8F653691Cf9A6515924b8BC5E458049";
 
 const prizeImageUrls = [
   "https://scarlet-worried-toad-640.mypinata.cloud/ipfs/bafybeigu2dznrcbusodcnhb5ixtz7qbmqhy5yal6b2djl4rwrq5k4pxhzy/lost.png",
@@ -246,6 +249,25 @@ function App() {
   }, [isMintConfirmed, mintError, refetchTotalSupply, refetchHasMinted]);
   
   const isLoadingInitialData = isLoadingMaxSupply || isLoadingTotalSupply || (isConnected && isLoadingHasMinted);
+
+
+  const {
+    writeContractAsync: claimReward,
+    isPending: isClaiming
+  } = useWriteContract();
+
+  const {
+    data: hasUserClaimed,
+    refetch: refetchHasClaimed
+  } = useReadContract({
+    address: REWARD_CLAIM_ADDRESS,
+    abi: rewardClaimAbi,
+    functionName: 'hasClaimed',
+    args: [userNFT?.tokenId],
+    query: {
+      enabled: !!userNFT?.tokenId
+    }
+  });
 
   const handleMint = async () => {
     if (!currentAccount) {
@@ -527,6 +549,50 @@ function App() {
                         </ul>
                       </div>
                     )}
+                    {userNFT?.isWinner && !hasUserClaimed && (
+                    <button
+                    onClick={async () => {
+                      try {
+                        setFeedback("⏳ Sending claim transaction...");
+                    
+                        const txHash = await claimReward({
+                          address: REWARD_CLAIM_ADDRESS,
+                          abi: rewardClaimAbi,
+                          functionName: "claim",
+                          args: [parseInt(userNFT.tokenId)],
+                        });
+                    
+                        if (!txHash) throw new Error("Transaction hash not returned.");
+                    
+                        setFeedback("⏳ Waiting for confirmation...");
+                    
+                        const receipt = await waitForTransactionReceipt({
+                          hash: txHash,
+                        });
+                    
+                        if (receipt.status === "success") {
+                          setFeedback("🎉 Reward claimed successfully!");
+                          refetchHasClaimed();
+                        } else {
+                          setFeedback("❗️ Transaction reverted.");
+                        }
+                      } catch (err) {
+                        console.error("❗️ Claim failed:", err);
+                        setFeedback(`❗️ Claim failed: ${err?.shortMessage || err?.message || "Unknown error"}`);
+                      }
+                    }}
+                      disabled={isClaiming}
+                      className="mt-6 px-6 py-3 bg-gradient-to-r from-pizza-basil-green to-pizza-gold-accent text-white text-lg font-semibold rounded-xl shadow hover:scale-105 transition"
+                    >
+                      {isClaiming ? "Claiming..." : "🎁 Claim 50 USDC"}
+                    </button>
+                  )}
+
+                  {hasUserClaimed && (
+                    <p className="mt-4 text-green-600 dark:text-green-300 font-medium text-center">
+                      ✅ You have already claimed your reward.
+                    </p>
+                  )}
                   </div>
                 </div>
               </section>
