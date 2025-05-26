@@ -6,6 +6,11 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+.env
+.env*.local
+.env.*.local
+!/.env.example # Allow .env.example if you have one
+
 
 # Diagnostic reports ([https://nodejs.org/api/report.html](https://nodejs.org/api/report.html))
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
@@ -98,6 +103,7 @@ build
 .cache/
 build/
 public/build/
+public
 
 # Docusaurus build output
 .docusaurus
@@ -106,7 +112,6 @@ public/build/
 .cache/
 # Comment in the public line in if your project uses Gatsby and not Next.js
 # [https://nextjs.org/blog/next-9-1#public-directory-support](https://nextjs.org/blog/next-9-1#public-directory-support)
-public
 
 # VuePress files
 .vuepress/dist
