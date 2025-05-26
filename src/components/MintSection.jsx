@@ -1,7 +1,7 @@
 // src/components/MintSection.jsx
 
 import React, { useEffect, useState } from 'react';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
+// ConnectButton import is removed as per previous request
 import { useAccount, useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
 import { rewardClaimAbi } from '../abis/rewardClaimAbi';
 import { pizzaDayNftAbi } from '../abis/pizzaDayNftAbi';
@@ -22,8 +22,8 @@ const MintSection = () => {
   const { userNFT, isLoadingNFT, refetchNFT } = useNFTDetails(currentAccount, true);
   const {
     maxSupply,
-    totalSupply,
-    hasMinted,
+    totalSupply, // This is your currentTotalSupply
+    hasMinted,   // This is your userHasAlreadyMinted
     isLoading: isMintLoading,
     refetch,
   } = useMintStatus(currentAccount);
@@ -49,16 +49,32 @@ const MintSection = () => {
     refetch: refetchHasClaimed,
   } = useClaimStatus(userNFT?.tokenId);
 
-  // useEffect for merkle proofs (this was already in a good spot)
   useEffect(() => {
-    if (!userNFT?.tokenId) return;
+    if (!userNFT?.tokenId) {
+        // console.log("MintSection: No userNFT.tokenId yet for fetching proofs.");
+        return;
+    }
+    // console.log("MintSection: Fetching proofs for tokenId:", userNFT.tokenId);
     fetch('/merkle-proofs.json')
-      .then(res => res.json())
-      .then(data => setClaimProof(data.proofs[userNFT.tokenId] || null))
-      .catch(() => setClaimProof(null));
+      .then(res => {
+        // console.log("MintSection: fetch response status for merkle-proofs.json:", res.status);
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        return res.json();
+      })
+      .then(data => {
+        // console.log("MintSection: Fetched merkle data:", data);
+        const proof = data && data.proofs && data.proofs[userNFT.tokenId] ? data.proofs[userNFT.tokenId] : null;
+        // console.log("MintSection: Proof for current token ID " + userNFT.tokenId + ":", proof);
+        setClaimProof(proof);
+      })
+      .catch(err => {
+        console.error("MintSection: Error fetching or processing merkle proofs:", err);
+        setClaimProof(null);
+      });
   }, [userNFT]);
 
-  // ✅ MOVED THIS useEffect UP & ADDED ALL DEPENDENCIES
   useEffect(() => {
     if (isMintConfirmed) {
       success("Mint successful! Fetching NFT...");
@@ -66,15 +82,12 @@ const MintSection = () => {
       refetch.hasMinted();
       refetchNFT();
     }
-  // It's good practice to include all external values used by the effect in the dependency array.
   }, [isMintConfirmed, success, refetch, refetchNFT]);
 
-  // Now, the conditional return is fine because all Hooks have been called
   if (!isConnected) {
     return <DisconnectedMintInfo />;
   }
 
-  // Helper functions are not Hooks, so they are fine here
   const handleClaim = async () => {
     if (!claimProof || !Array.isArray(claimProof)) {
       error("No valid Merkle proof for this token.");
@@ -83,7 +96,7 @@ const MintSection = () => {
     try {
       info("Claiming reward...");
       await claimReward({
-        address: REWARD_CLAIM_ADDRESS, // Ensure REWARD_CLAIM_ADDRESS is defined
+        address: REWARD_CLAIM_ADDRESS,
         abi: rewardClaimAbi,
         functionName: "claim",
         args: [parseInt(userNFT.tokenId), claimProof],
@@ -91,7 +104,6 @@ const MintSection = () => {
       success("Reward claimed successfully!");
       refetchHasClaimed();
     } catch (err) {
-      // It's often better to log the full error for debugging
       console.error("Claim failed:", err);
       error(`Claim failed: ${err.message || "Unknown error"}`);
     }
@@ -113,50 +125,74 @@ const MintSection = () => {
     try {
       info("Preparing to mint...");
       await mintNFTAsync({
-        address: import.meta.env.VITE_CONTRACT_ADDRESS, // Ensure this env var is correctly loaded
+        address: import.meta.env.VITE_CONTRACT_ADDRESS,
         abi: pizzaDayNftAbi,
         functionName: 'mintNFT',
         args: [currentAccount],
       });
-      // Success message for minting is handled by the isMintConfirmed useEffect
     } catch (e) {
       console.error("Minting failed:", e);
       error(`Minting failed: ${e.message || "Could not send transaction."}`);
     }
   };
 
-  // The rest of your component's JSX for the connected state
+  // For debugging props passed to NFTDetails
+  // console.log("MintSection: Props being sent to NFTDetails ->", {
+  //     userNFT: userNFT,
+  //     hasUserClaimed: hasUserClaimed,
+  //     claimProof: claimProof,
+  //     isClaiming: isClaiming,
+  //     isLoading: isLoadingNFT || isMintLoading
+  // });
+
   return (
     <div className="w-full max-w-3xl xl:max-w-4xl bg-gradient-to-br from-pizza-dough-light via-white to-pizza-parchment dark:from-pizza-oven-dark dark:via-pizza-night-dark dark:to-pizza-oven-dark rounded-3xl shadow-2xl p-6 sm:p-8 md:p-10">
-      <header className="mb-8 sm:mb-10 pb-6 sm:pb-8 border-b-2 border-pizza-crust/30 dark:border-pizza-cheese-melt/30 flex flex-col sm:flex-row justify-between items-center gap-5">
-        <h1 className="text-2xl sm:text-3xl font-bold text-pizza-tomato-red dark:text-pizza-cheese-yellow tracking-wide flex items-center gap-2.5">
-          <span role="img" aria-label="pizza" className="text-3xl sm:text-4xl transform group-hover:rotate-12 transition-transform">🍕</span>
-          <span>Pizza Day NFT Minter</span>
-        </h1>
-        <ConnectButton accountStatus={{ smallScreen: 'avatar', largeScreen: 'full' }} showBalance={{ smallScreen: false, largeScreen: true }} />
-      </header>
+      
+      <div className="mb-8 text-center">
+        <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-200">
+          NFT Minting &amp; Rewards
+        </h2>
+      </div>
 
       <main className="space-y-8 sm:space-y-10">
-        {/* You might want to display feedback more prominently or clear it */}
-        {feedback && <p className={`p-3 rounded-md ${feedback.type === 'success' ? 'bg-green-100 text-green-700' : feedback.type === 'error' ? 'bg-red-100 text-red-700' : 'bg-blue-100 text-blue-700'}`}>{feedback.message}</p>}
+        {feedback && feedback.message && (
+            <p 
+              className={`p-3 rounded-md text-sm font-medium
+                ${feedback.type === 'success' ? 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-200' : 
+                  feedback.type === 'error' ? 'bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-200' : 
+                  'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-200'}`}
+            >
+              {feedback.message}
+            </p>
+        )}
+
+        {/* 👇 ADDED "SOLD OUT" MESSAGE BLOCK HERE 👇 */}
+        {maxSupply > 0 && totalSupply >= maxSupply && !userNFT && !isLoadingNFT && !isMintLoading && (
+          <p className="mt-6 text-lg font-semibold text-pizza-tomato-red dark:text-pizza-cheese-yellow p-4 bg-pizza-parchment dark:bg-pizza-box-dark rounded-xl border-2 border-pizza-tomato-red/30 dark:border-pizza-cheese-yellow/30 text-center shadow-md">
+            All Pizza Day NFTs have been minted out!
+            {hasMinted && " Check yours below if loaded."} {/* Using 'hasMinted' state */}
+          </p>
+        )}
 
         <button
           onClick={handleMint}
-          disabled={isMintingWrite || isConfirmingMint || hasMinted || (maxSupply > 0 && totalSupply >= maxSupply) || !currentAccount}
+          disabled={isMintingWrite || isConfirmingMint || hasMinted || (maxSupply > 0 && totalSupply >= maxSupply && !currentAccount) || (maxSupply > 0 && totalSupply >= maxSupply)} // Simplified disabled logic for sold out
           className="w-full sm:w-auto bg-pizza-tomato-red hover:bg-pizza-tomato-dark disabled:opacity-50 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition duration-150 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-pizza-cheese-yellow focus:ring-opacity-50"
         >
-          {isMintingWrite || isConfirmingMint ? 'Processing Mint...' : hasMinted ? 'Already Minted!' : (maxSupply > 0 && totalSupply >= maxSupply) ? 'Sold Out!' : 'Mint Your Pizza NFT'}
+          {isMintingWrite || isConfirmingMint ? 'Processing Mint...' 
+            : (maxSupply > 0 && totalSupply >= maxSupply) ? 'Sold Out!' 
+            : hasMinted ? 'Already Minted!' 
+            : 'Mint Your Pizza NFT'}
         </button>
 
-        {/* Consider showing loading/error states more explicitly for NFTDetails if it handles async ops */}
         <NFTDetails
           userNFT={userNFT}
           hasUserClaimed={hasUserClaimed}
           isClaiming={isClaiming}
           onClaim={handleClaim}
-          claimProof={claimProof} // claimProof being null initially is fine
-          isLoading={isLoadingNFT || isMintLoading} // Combine loading states if appropriate
-          error={null} // Placeholder: Pass any relevant error for NFTDetails if available
+          claimProof={claimProof}
+          isLoading={isLoadingNFT || isMintLoading}
+          error={null} 
         />
       </main>
     </div>

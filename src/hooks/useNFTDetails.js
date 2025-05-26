@@ -1,5 +1,3 @@
-// src/hooks/useNFTDetails.js
-
 import { useCallback, useEffect, useState } from 'react';
 import { pizzaDayNftAbi } from '../abis/pizzaDayNftAbi';
 import { readContract as wagmiReadContract } from '@wagmi/core';
@@ -29,6 +27,19 @@ export function useNFTDetails(account, enabled = true) {
     setUserNFT(null);
     setError(null);
     try {
+      // Pre-check: balanceOf
+      const balance = await wagmiReadContract(wagmiConfig, {
+        address: CONTRACT_ADDRESS,
+        abi: pizzaDayNftAbi,
+        functionName: 'balanceOf',
+        args: [account],
+      });
+
+      if (balance === 0n) {
+        setUserNFT(null); // No NFTs owned
+        return;
+      }
+
       const tokenId = await wagmiReadContract(wagmiConfig, {
         address: CONTRACT_ADDRESS,
         abi: pizzaDayNftAbi,

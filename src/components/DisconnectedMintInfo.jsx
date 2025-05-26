@@ -61,11 +61,11 @@ const DisconnectedMintInfo = () => {
         </p>
         <p className="text-pizza-olive-dark dark:text-pizza-dough-light/80 text-sm mt-1">
           Connect your wallet to mint your free Pizza Day NFT!
+         
         </p>
+        
       </div>
-        <div className="mt-8 text-center">
-        <ConnectButton />
-        </div>
+      
     </section>
   );
 };
