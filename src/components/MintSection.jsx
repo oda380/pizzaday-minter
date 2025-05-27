@@ -58,13 +58,14 @@ const MintSection = () => {
 
 
 
-  useEffect(() => {
-    console.log({
-      tokenId,
-      hasUserClaimed,
-      envAddress: import.meta.env.VITE_REWARD_CLAIM_ADDRESS
-    });
-  }, [tokenId, hasUserClaimed]);
+    useEffect(() => {
+      console.log({
+        tokenId,
+        hasUserClaimed,
+        envAddress: import.meta.env.VITE_REWARD_CLAIM_ADDRESS,
+        rpc: import.meta.env.VITE_BASE_MAINNET_RPC_URL,
+      });
+    }, [tokenId, hasUserClaimed]);
     if (!isConnected) return <DisconnectedMintInfo />;
 
   const handleClaim = async () => {
