@@ -51,24 +51,26 @@ const Leaderboard = () => {
         <p className="text-center text-sm text-gray-500 dark:text-gray-400">Loading leaderboard...</p>
       ) : (
         <>
-          <table className="w-full text-sm text-left text-gray-600 dark:text-gray-300 mb-4">
-            <thead>
-              <tr className="text-xs uppercase bg-gray-100 dark:bg-slate-700">
-                <th className="py-2 px-4">Token ID</th>
-                <th className="py-2 px-4">Wallet</th>
-                <th className="py-2 px-4 text-right">Prize</th>
-              </tr>
-            </thead>
-            <tbody>
-              {paginatedData.map((entry, index) => (
-                <tr key={index} className="border-t border-gray-200 dark:border-slate-700">
-                  <td className="py-2 px-4 font-medium">{entry.tokenId}</td>
-                  <td className="py-2 px-4 font-mono text-xs truncate">{entry.wallet}</td>
-                  <td className="py-2 px-4 text-right">{entry.prize}</td>
+          <div className="overflow-x-auto rounded-lg border border-gray-200 dark:border-slate-700">
+            <table className="min-w-full text-sm text-left text-gray-600 dark:text-gray-300">
+              <thead>
+                <tr className="text-xs uppercase bg-gray-100 dark:bg-slate-700 whitespace-nowrap">
+                  <th className="py-2 px-4">Token ID</th>
+                  <th className="py-2 px-4">Wallet</th>
+                  <th className="py-2 px-4 text-right">Prize</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {paginatedData.map((entry, index) => (
+                  <tr key={index} className="border-t border-gray-100 dark:border-slate-700 whitespace-nowrap">
+                    <td className="py-2 px-4 font-medium">{entry.tokenId}</td>
+                    <td className="py-2 px-4 font-mono text-xs truncate max-w-[120px]">{entry.wallet}</td>
+                    <td className="py-2 px-4 text-right">{entry.prize}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
 
           <div className="flex justify-between items-center">
             <button
