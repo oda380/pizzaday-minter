@@ -4,7 +4,7 @@ import { rewardClaimAbi } from '../abis/rewardClaimAbi';
 const REWARD_CLAIM_ADDRESS = import.meta.env.VITE_REWARD_CLAIM_ADDRESS;
 
 export function useClaimStatus(tokenId) {
-  const validTokenId = typeof tokenId === 'number' && tokenId >= 0 ? tokenId : 0;
+  const isValidTokenId = typeof tokenId === 'number' && tokenId >= 0;
 
   const {
     data,
@@ -15,9 +15,9 @@ export function useClaimStatus(tokenId) {
     address: REWARD_CLAIM_ADDRESS,
     abi: rewardClaimAbi,
     functionName: 'hasClaimed',
-    args: [validTokenId],
+    args: [isValidTokenId ? tokenId : 0], // avoid undefined
     query: {
-      enabled: tokenId >= 0,
+      enabled: isValidTokenId,
     },
   });
 

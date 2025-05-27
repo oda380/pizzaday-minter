@@ -52,8 +52,17 @@ const MintSection = () => {
     isPending: isClaiming,
   } = useWriteContract();
 
-  const tokenId = userNFT?.tokenId ?? -1;
-  const { hasClaimed: hasUserClaimed, isLoading: isClaimStatusLoading, refetch: refetchHasClaimed } = useClaimStatus(tokenId);
+  const tokenId =
+    typeof userNFT?.tokenId === 'string'
+      ? parseInt(userNFT.tokenId, 10)
+      : userNFT?.tokenId ?? -1;
+
+  const {
+    hasClaimed: hasUserClaimed,
+    refetch: refetchHasClaimed,
+    isLoading: isClaimStatusLoading,
+  } = useClaimStatus(tokenId);
+
 
 
 
