@@ -11,6 +11,7 @@ import { useNFTDetails } from '../hooks/useNFTDetails';
 import { useClaimStatus } from '../hooks/useClaimStatus';
 import { useFeedback } from '../context/FeedbackContext';
 import DisconnectedMintInfo from './DisconnectedMintInfo';
+import Leaderboard from './LeaderBoard';
 
 const REWARD_CLAIM_ADDRESS = import.meta.env.VITE_REWARD_CLAIM_ADDRESS;
 
@@ -26,6 +27,14 @@ const MintSection = () => {
     isLoading: isMintLoading,
     refetch,
   } = useMintStatus(currentAccount);
+
+  const soldOut =
+    typeof maxSupply === 'number' &&
+    typeof totalSupply === 'number' &&
+    maxSupply > 0 &&
+    totalSupply >= maxSupply;
+
+  const showSoldOutMessage = soldOut && !userNFT;
 
   const {
     writeContractAsync: mintNFTAsync,
@@ -43,10 +52,11 @@ const MintSection = () => {
     isPending: isClaiming,
   } = useWriteContract();
 
-  const {
-    hasClaimed: hasUserClaimed,
-    refetch: refetchHasClaimed,
-  } = useClaimStatus(userNFT?.tokenId);
+  const tokenId = userNFT?.tokenId ?? -1;
+  const { hasClaimed: hasUserClaimed, isLoading: isClaimStatusLoading, refetch: refetchHasClaimed } = useClaimStatus(tokenId);
+
+
+
 
   useEffect(() => {
     if (isMintConfirmed) {
@@ -94,30 +104,40 @@ const MintSection = () => {
   };
 
   return (
-    <div className="w-full max-w-3xl xl:max-w-4xl bg-gradient-to-br from-pizza-dough-light via-white to-pizza-parchment dark:from-pizza-oven-dark dark:via-pizza-night-dark dark:to-pizza-oven-dark rounded-3xl shadow-2xl p-6 sm:p-8 md:p-10">
-      <header className="mb-8 sm:mb-10 pb-6 sm:pb-8 border-b-2 border-pizza-crust/30 dark:border-pizza-cheese-melt/30 flex flex-col sm:flex-row justify-between items-center gap-5">
-        <h1 className="text-2xl sm:text-3xl font-bold text-pizza-tomato-red dark:text-pizza-cheese-yellow tracking-wide flex items-center gap-2.5">
-          <span role="img" aria-label="pizza" className="text-3xl sm:text-4xl transform group-hover:rotate-12 transition-transform">🍕</span>
-          <span>Pizza Day NFT Minter</span>
-        </h1>
-        <ConnectButton accountStatus={{ smallScreen: 'avatar', largeScreen: 'full' }} showBalance={{ smallScreen: false, largeScreen: true }} />
-      </header>
+    
+    <div className="w-full max-w-3xl xl:max-w-4xl bg-gradient-to-br from-pizza-dough-light via-white to-pizza-parchment dark:from-pizza-oven-dark dark:via-pizza-night-dark dark:to-pizza-oven-dark rounded-3xl shadow-2xl p-6 sm:p-8 md:p-10 space-y-10">
+      <h2 className="text-center text-2xl sm:text-3xl font-bold tracking-tight text-pizza-tomato-red dark:text-pizza-cheese-yellow">
+        🍕 Your Pizza NFT & Reward Status
+      </h2>
 
-      <main className="space-y-8 sm:space-y-10">
-        {feedback && <p>{feedback}</p>}
-        <button onClick={handleMint} disabled={isMintingWrite}>Mint</button>
+      {feedback && (
+        <p className="text-center text-sm text-pizza-tomato-red dark:text-pizza-cheese-yellow">
+          {feedback}
+        </p>
+      )}
+      {showSoldOutMessage && (
+        <div className="text-center bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 rounded-xl p-6">
+          <h3 className="text-xl font-bold text-red-600 dark:text-red-300 mb-2">All NFTs Minted</h3>
+          <p className="text-sm text-red-500 dark:text-red-400">
+            Sorry, all Pizza Day NFTs have been minted. Better luck next year! 🍕
+          </p>
+        </div>
+      )}
 
-        <NFTDetails
-          userNFT={userNFT}
-          hasUserClaimed={hasUserClaimed}
-          isClaiming={isClaiming}
-          onClaim={handleClaim}
-          isLoading={isLoadingNFT}
-          error={null}
-        />
-      </main>
+      {!showSoldOutMessage && (<NFTDetails
+        userNFT={userNFT}
+        hasUserClaimed={hasUserClaimed}
+        isClaiming={isClaiming}
+        onClaim={handleClaim}
+        isLoading={isLoadingNFT || isClaimStatusLoading}
+        error={null}
+      />
+      )}
+      
+    <Leaderboard />
     </div>
   );
 };
 
 export default MintSection;
+

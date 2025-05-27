@@ -1,5 +1,3 @@
-// src/hooks/useClaimStatus.js
-
 import { useReadContract } from 'wagmi';
 import { rewardClaimAbi } from '../abis/rewardClaimAbi';
 
@@ -10,21 +8,21 @@ export function useClaimStatus(tokenId) {
     data,
     isLoading,
     error,
-    refetch
+    refetch,
   } = useReadContract({
     address: REWARD_CLAIM_ADDRESS,
     abi: rewardClaimAbi,
     functionName: 'hasClaimed',
-    args: [tokenId],
+    args: [tokenId], // fallback arg to avoid undefined
     query: {
-      enabled: !!tokenId
-    }
+      enabled: tokenId >= 0,
+    },
   });
 
   return {
     hasClaimed: data === true,
     isLoading,
     error,
-    refetch
+    refetch,
   };
 }
