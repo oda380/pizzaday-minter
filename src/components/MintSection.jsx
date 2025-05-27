@@ -59,15 +59,13 @@ const MintSection = () => {
 
 
   useEffect(() => {
-    if (isMintConfirmed) {
-      success("Mint successful! Fetching NFT...");
-      refetch.totalSupply();
-      refetch.hasMinted();
-      refetchNFT();
-    }
-  }, [isMintConfirmed]);
-
-  if (!isConnected) return <DisconnectedMintInfo />;
+    console.log({
+      tokenId,
+      hasUserClaimed,
+      envAddress: import.meta.env.VITE_REWARD_CLAIM_ADDRESS
+    });
+  }, [tokenId, hasUserClaimed]);
+    if (!isConnected) return <DisconnectedMintInfo />;
 
   const handleClaim = async () => {
     try {
