@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  @apply bg-pizza-light text-gray-800 dark:bg-pizza-dark dark:text-gray-200;
+}
+
+.img-bounce:hover {
+  transform: scale(1.05);
+  transition: transform 0.2s ease-in-out;
+}
+
+.card-glow {
+  box-shadow: 0 0 10px #facc15, 0 0 20px #facc15;
+}
