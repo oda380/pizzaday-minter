@@ -2,14 +2,12 @@ import { useCallback, useEffect, useState } from 'react';
 import { pizzaDayNftAbi } from '../abis/pizzaDayNftAbi';
 import { readContract as wagmiReadContract } from '@wagmi/core';
 import { useConfig } from 'wagmi';
-
-const CONTRACT_ADDRESS = import.meta.env.VITE_CONTRACT_ADDRESS;
-const RAW_IPFS_GATEWAY_PREFIX = import.meta.env.VITE_IPFS_GATEWAY_PREFIX;
+import { CONTRACT_ADDRESS, IPFS_GATEWAY_PREFIX } from '../config';
 
 const convertIpfsUriToHttpUrl = (ipfsUri) => {
   if (!ipfsUri || !ipfsUri.startsWith("ipfs://")) return ipfsUri;
   const cidAndPath = ipfsUri.substring(7);
-  let gatewayPrefix = RAW_IPFS_GATEWAY_PREFIX;
+  let gatewayPrefix = IPFS_GATEWAY_PREFIX || '';
   if (!gatewayPrefix.endsWith('/')) gatewayPrefix += '/';
   if (!gatewayPrefix.includes('/ipfs/')) gatewayPrefix += 'ipfs/';
   return `${gatewayPrefix}${cidAndPath.startsWith('/') ? cidAndPath.substring(1) : cidAndPath}`;

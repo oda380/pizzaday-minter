@@ -1,9 +1,6 @@
-// src/hooks/useClaimStatus.js
-
 import { useReadContract } from 'wagmi';
 import { rewardClaimAbi } from '../abis/rewardClaimAbi';
-
-const REWARD_CLAIM_ADDRESS = import.meta.env.REWARD_CLAIM_ADDRESS;
+import { REWARD_CLAIM_ADDRESS } from '../config';
 
 export function useClaimStatus(tokenId) {
   const {

@@ -1,16 +1,608 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap');
 
-/* Use theme() with correct nested path */
-body {
-  background-color: theme('colors.pizza.light'); 
-  color: theme('colors.gray.800');
+/* ============================================
+   ₿PIZZA NFT MINTER - REFINED DARK THEME
+   Colors matched to placeholder image
+   ============================================ */
+
+:root {
+  /* Core colors - matched to placeholder image */
+  --bg-primary: #050505;
+  --bg-secondary: #0a0a0a;
+  --bg-card: rgba(12, 12, 12, 0.95);
+
+  /* Warm accents - from placeholder glow */
+  --accent-orange: #e85d2d;
+  --accent-gold: #c9952e;
+  --accent-warm: #d4762f;
+
+  /* Text */
+  --text-primary: rgba(255, 255, 255, 0.95);
+  --text-secondary: rgba(255, 255, 255, 0.6);
+  --text-muted: rgba(255, 255, 255, 0.35);
+
+  /* Borders and glows */
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border-accent: rgba(232, 93, 45, 0.4);
+  --glow-warm: 0 0 40px rgba(232, 93, 45, 0.15), 0 0 80px rgba(201, 149, 46, 0.1);
+  --glow-intense: 0 0 50px rgba(232, 93, 45, 0.3), 0 0 100px rgba(201, 149, 46, 0.2);
 }
 
-@media (prefers-color-scheme: dark) { 
-  body {
-    background-color: theme('colors.pizza.dark');
-    color: theme('colors.gray.200');
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Outfit', system-ui, sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Animated background with moving glow orbs */
+.animated-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: var(--bg-primary);
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.animated-bg::before,
+.animated-bg::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.5;
+}
+
+/* Orange orb - top left, drifting - NEON INTENSE */
+.animated-bg::before {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(255, 90, 20, 0.4) 0%, rgba(232, 93, 45, 0.15) 40%, transparent 70%);
+  top: -200px;
+  left: -200px;
+  animation: drift-1 20s ease-in-out infinite;
+}
+
+/* Gold orb - bottom right, drifting */
+.animated-bg::after {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(201, 149, 46, 0.2) 0%, transparent 70%);
+  bottom: -100px;
+  right: -100px;
+  animation: drift-2 25s ease-in-out infinite;
+}
+
+@keyframes drift-1 {
+
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
   }
+
+  25% {
+    transform: translate(100px, 50px) scale(1.1);
+  }
+
+  50% {
+    transform: translate(50px, 100px) scale(0.95);
+  }
+
+  75% {
+    transform: translate(-20px, 60px) scale(1.05);
+  }
+}
+
+@keyframes drift-2 {
+
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  33% {
+    transform: translate(-80px, -40px) scale(1.15);
+  }
+
+  66% {
+    transform: translate(-40px, -80px) scale(0.9);
+  }
+}
+
+/* Particles - more subtle */
+.particles {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: var(--accent-gold);
+  border-radius: 50%;
+  opacity: 0.15;
+  animation: float-particle 20s infinite ease-in-out;
+}
+
+.particle:nth-child(1) {
+  left: 15%;
+  top: 25%;
+  animation-delay: 0s;
+}
+
+.particle:nth-child(2) {
+  left: 25%;
+  top: 75%;
+  animation-delay: 3s;
+}
+
+.particle:nth-child(3) {
+  left: 75%;
+  top: 35%;
+  animation-delay: 6s;
+}
+
+.particle:nth-child(4) {
+  left: 65%;
+  top: 65%;
+  animation-delay: 2s;
+}
+
+.particle:nth-child(5) {
+  left: 45%;
+  top: 45%;
+  animation-delay: 5s;
+}
+
+.particle:nth-child(6) {
+  left: 85%;
+  top: 55%;
+  animation-delay: 8s;
+}
+
+.particle:nth-child(7) {
+  left: 35%;
+  top: 15%;
+  animation-delay: 4s;
+}
+
+.particle:nth-child(8) {
+  left: 55%;
+  top: 85%;
+  animation-delay: 2s;
+}
+
+@keyframes float-particle {
+
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 0.1;
+  }
+
+  50% {
+    transform: translateY(-80px) scale(1.2);
+    opacity: 0.25;
+  }
+}
+
+/* App Container */
+.app-container {
+  position: relative;
+  z-index: 10;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 5rem 1rem 3rem;
+  gap: 1.5rem;
+}
+
+/* ============================================
+   MINT CARD - Refined dark glass
+   ============================================ */
+
+.mint-card {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 90, 20, 0.15);
+  border-radius: 20px;
+  padding: 1.75rem 1.5rem;
+  animation: fade-in-up 0.6s ease-out;
+  box-shadow: 0 0 60px rgba(255, 90, 20, 0.2), 0 0 120px rgba(232, 93, 45, 0.1);
+}
+
+/* Neon glow border */
+.mint-card::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 22px;
+  background: linear-gradient(135deg,
+      rgba(255, 90, 20, 0.5),
+      rgba(255, 140, 50, 0.3),
+      rgba(201, 149, 46, 0.4),
+      rgba(255, 90, 20, 0.5));
+  z-index: -1;
+  opacity: 0.6;
+  animation: border-pulse 3s ease-in-out infinite alternate;
+}
+
+@keyframes border-pulse {
+  0% {
+    opacity: 0.4;
+  }
+
+  100% {
+    opacity: 0.7;
+  }
+}
+
+/* ============================================
+   NFT PREVIEW - Subtle warm border
+   ============================================ */
+
+.nft-preview {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 1.25rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+}
+
+/* Subtle rotating glow */
+.nft-preview::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: conic-gradient(from 0deg,
+      rgba(232, 93, 45, 0.3),
+      rgba(201, 149, 46, 0.2),
+      rgba(232, 93, 45, 0.15),
+      rgba(201, 149, 46, 0.2),
+      rgba(232, 93, 45, 0.3));
+  border-radius: 16px;
+  z-index: -1;
+  animation: rotate-glow 8s linear infinite;
+  opacity: 0.6;
+}
+
+.nft-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@keyframes rotate-glow {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ============================================
+   TYPOGRAPHY
+   ============================================ */
+
+.card-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  text-align: center;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.card-subtitle {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+  font-weight: 400;
+}
+
+.supply-counter {
+  display: flex;
+  justify-content: center;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.supply-counter .current {
+  color: var(--accent-gold);
+  font-weight: 600;
+}
+
+/* ============================================
+   PREMIUM BUTTON - Refined gradient
+   ============================================ */
+
+.btn-mint-premium {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: inherit;
+  color: #0a0a0a;
+  background: linear-gradient(135deg, var(--accent-orange), var(--accent-gold));
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 20px rgba(232, 93, 45, 0.25);
+  letter-spacing: 0.02em;
+}
+
+.btn-mint-premium:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(232, 93, 45, 0.35);
+}
+
+.btn-mint-premium:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-mint-premium:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Subtle shimmer */
+.btn-mint-premium::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+
+  100% {
+    left: 100%;
+  }
+}
+
+/* Wallet Section */
+.wallet-section {
+  margin-top: 0.75rem;
+  display: flex;
+  justify-content: center;
+}
+
+/* ============================================
+   STATUS MESSAGES
+   ============================================ */
+
+.status-message {
+  margin-top: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.status-message.success {
+  background: rgba(34, 197, 94, 0.08);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  color: rgba(74, 222, 128, 0.9);
+}
+
+.status-message.error {
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  color: rgba(248, 113, 113, 0.9);
+}
+
+.status-message.info {
+  background: rgba(232, 93, 45, 0.08);
+  border: 1px solid rgba(232, 93, 45, 0.2);
+  color: var(--accent-gold);
+}
+
+/* ============================================
+   SOCIAL PROOF - Refined
+   ============================================ */
+
+.social-proof {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  background: rgba(12, 12, 12, 0.95);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  font-size: 0.8rem;
+  animation: slide-up 0.4s ease-out, fade-out 0.4s ease-out 4.5s forwards;
+}
+
+.social-proof .address {
+  color: var(--accent-gold);
+  font-weight: 600;
+  font-family: 'SF Mono', Monaco, monospace;
+  font-size: 0.75rem;
+}
+
+.social-proof .action {
+  color: var(--text-muted);
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateX(-50%) translateY(50px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+/* ============================================
+   ATTRIBUTES
+   ============================================ */
+
+.nft-attributes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  justify-content: center;
+  margin: 0.75rem 0;
+}
+
+.attribute-pill {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-subtle);
+  padding: 0.35rem 0.65rem;
+  border-radius: 6px;
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+}
+
+.attribute-pill .label {
+  color: var(--accent-gold);
+  font-weight: 500;
+}
+
+/* Mobile drag handle */
+.drag-handle {
+  display: none;
+}
+
+/* Footer */
+.footer {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+
+.footer a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer a:hover {
+  color: var(--accent-gold);
+}
+
+/* Animations */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================
+   MOBILE BOTTOM SHEET
+   ============================================ */
+
+@media (max-width: 640px) {
+  .app-container {
+    padding: 4.5rem 1rem 2rem;
+    justify-content: flex-start;
+  }
+
+  .mint-card {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    max-width: 100%;
+    border-radius: 20px 20px 0 0;
+    padding: 1.25rem;
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+
+  .mint-card::before {
+    border-radius: 21px 21px 0 0;
+  }
+
+  .drag-handle {
+    display: block;
+    width: 36px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 2px;
+    margin: 0 auto 1rem;
+  }
+
+  .nft-preview {
+    max-height: 180px;
+    aspect-ratio: auto;
+  }
+
+  .social-proof {
+    bottom: auto;
+    top: 60px;
+  }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-subtle);
+  border-radius: 2px;
+}
+
+/* RainbowKit */
+[data-rk] {
+  --rk-colors-accentColor: var(--accent-orange) !important;
 }

@@ -1,9 +1,6 @@
-// src/hooks/useMintStatus.js
-
 import { useReadContract } from 'wagmi';
 import { pizzaDayNftAbi } from '../abis/pizzaDayNftAbi';
-
-const CONTRACT_ADDRESS = import.meta.env.VITE_CONTRACT_ADDRESS;
+import { CONTRACT_ADDRESS } from '../config';
 
 export function useMintStatus(account) {
   const maxSupplyCall = useReadContract({

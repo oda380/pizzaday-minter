@@ -3,12 +3,12 @@ import React, { createContext, useContext, useState } from 'react';
 const FeedbackContext = createContext();
 
 export const FeedbackProvider = ({ children }) => {
-  const [feedback, setFeedback] = useState("");
+  const [feedback, setFeedback] = useState(null);
 
-  const success = (msg) => setFeedback(`✅ ${msg}`);
-  const error = (msg) => setFeedback(`❗️ ${msg}`);
-  const info = (msg) => setFeedback(`🔔 ${msg}`);
-  const clear = () => setFeedback("");
+  const success = (msg) => setFeedback({ type: 'success', message: msg });
+  const error = (msg) => setFeedback({ type: 'error', message: msg });
+  const info = (msg) => setFeedback({ type: 'info', message: msg });
+  const clear = () => setFeedback(null);
 
   return (
     <FeedbackContext.Provider value={{ feedback, setFeedback, success, error, info, clear }}>
