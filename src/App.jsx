@@ -87,6 +87,19 @@ const App = () => {
 
       {/* Main Content */}
       <div className="app-container">
+        {/* Mobile Hero Image - shown above bottom sheet */}
+        <div className="mobile-hero">
+          <div className="hero-image-wrapper">
+            <img
+              src="/pizza-preview.png"
+              alt="Bitcoin Pizza Day NFT"
+              className="hero-image"
+            />
+          </div>
+          <h1 className="hero-title">₿PIZZA</h1>
+          <p className="hero-subtitle">Bitcoin Pizza Day 2025</p>
+        </div>
+
         <MintCard />
 
         {/* Footer - improved visibility */}
